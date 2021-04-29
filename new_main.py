@@ -75,9 +75,9 @@ birds = initialize_birds.generateBirds()
 
 
 # Initialize lists of neighbours and mates for each bird
-all_mates = []
+all_mates = []                  ### NEEDED?
 close_neighbours = []
-for i in range(param.NUM_BIRDS):
+for i in range(len(birds)):
     all_mates.append([])
     close_neighbours.append([])
 
@@ -152,14 +152,22 @@ while run:
 
     # Update lists of neighbours and mates
 
-
-
+    for i in range(len(birds)):
+        for bird in birds:
+            if bird.index == birds[i].index:# or (bird.position[0] == birds[i].position[0] and bird.position[1] == birds[i].position[1]):
+            ### if bird.index == birds[i].index or (bird.position[0] == birds[i].position[0] and bird.position[1] == birds[i].position[1] and bird.position[2] == birds[i].position[2]):
+                continue
+            #all_mates[i].append(bird)
+            if math.sqrt((birds[i].position[0]-bird.position[0])**2+(birds[i].position[1]-bird.position[1])**2)<param.MIN_DIST:
+            ### if math.sqrt((birds[i].position[0]-bird.position[0])**2+(birds[i].position[1]-bird.position[1])**2+(birds[i].position[2]-bird.position[2])**2)<param.MIN_DIST:
+                close_neighbours[i].append(bird)
+    
     # Draw birds
 
     for bird in birds:
         head = bird.position
-        tail_centre = (bird.position[0]-22*bird.direction[0],
-                       bird.position[1]-22*bird.direction[1]###,
+        tail_centre = (bird.position[0]-18*bird.direction[0],
+                       bird.position[1]-18*bird.direction[1]###,
                        ###bird.position[2]-22*bird.direction[2]
                       )
 
@@ -169,12 +177,12 @@ while run:
                       ]
         #### 3d mirárselo
 
-        tail_vertex1 = (tail_centre[0]-8*perp_vector[0],
-                        tail_centre[1]-8*perp_vector[1]###,
+        tail_vertex1 = (tail_centre[0]-6*perp_vector[0],
+                        tail_centre[1]-6*perp_vector[1]###,
                         ###tail_centre[2]-8*temp_dir[2]
                         )
-        tail_vertex2 = (tail_centre[0]+8*perp_vector[0],
-                        tail_centre[1]+8*perp_vector[1]###,
+        tail_vertex2 = (tail_centre[0]+6*perp_vector[0],
+                        tail_centre[1]+6*perp_vector[1]###,
                         ###tail_centre[2]+8*temp_dir[2]
                         )
 
@@ -190,12 +198,15 @@ while run:
         ###glVertex3fv((int(tail_vertex2[0]),int(tail_vertex2[1]),int(tail_vertex2[2])))
         glEnd()
 
+
+
     # Update birds
 
-
+    for i in range(len(birds)):
+        birds[i].update(close_neighbours[i],birds)
 
     pygame.display.flip()
-    clock.tick(30)
+    clock.tick(param.FPS)
 
 
 

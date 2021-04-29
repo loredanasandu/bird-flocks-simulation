@@ -62,14 +62,14 @@ class Bird:
         ###IMPLEMENT
         # Apply boundary conditions
         if new_x < param.X_MIN + param.BOUNDARY_DELTA:
-            new_x = param.X_MAX + param.BOUNDARY_DELTA
+            new_x = param.X_MAX - param.BOUNDARY_DELTA
         elif new_x > param.X_MAX - param.BOUNDARY_DELTA:
-            new_x = param.X_MIN - param.BOUNDARY_DELTA
+            new_x = param.X_MIN + param.BOUNDARY_DELTA
         
         if new_y < param.Y_MIN + param.BOUNDARY_DELTA:
-            new_y = param.Y_MAX + param.BOUNDARY_DELTA
+            new_y = param.Y_MAX - param.BOUNDARY_DELTA
         elif new_y > param.Y_MAX - param.BOUNDARY_DELTA:
-            new_y = param.Y_MIN - param.BOUNDARY_DELTA
+            new_y = param.Y_MIN + param.BOUNDARY_DELTA
 
         ###if new_z < param.Z_MIN - param.BOUNDARY_DELTA:
         ###    new_z = param.Z_MAX + param.BOUNDARY_DELTA
@@ -81,12 +81,13 @@ class Bird:
         ###self.position[2] = new_z
 
     
-    def separation(self, neighbours: list):     # Avoidance
+    def separation(self, neighbours: list):     # Avoidance  
+        ###ALGO LE PASA
         """Separate bird from neighbours that are too close."""
         if len(neighbours) == 0:
             return self.direction
         else:
-            avoidance_dir = [
+            avoidance_vel = [
                 0,0###,
                 ###0
             ]
@@ -101,15 +102,15 @@ class Bird:
                 mod_dist = math.sqrt(dist[0]**2+dist[1]**2)
                 ###mod_dist = math.sqrt(dist[0]**2+dist[1]**2+dist[2]**2)
 
-                avoidance_dir[0] += (param.MIN_DIST - mod_dist)*dist[0]
-                avoidance_dir[1] += (param.MIN_DIST - mod_dist)*dist[1]
-                ###avoidance_dir[2] += (param.MIN_DIST - mod_dist)*dist[2]
+                avoidance_vel[0] += (param.MIN_DIST - mod_dist)*dist[0]
+                avoidance_vel[1] += (param.MIN_DIST - mod_dist)*dist[1]
+                ###avoidance_vel[2] += (param.MIN_DIST - mod_dist)*dist[2]
 
-            avoidance_dir[0] *= (-1/len(neighbours))
-            avoidance_dir[1] *= (-1/len(neighbours))
-            ###avoidance_dir[2] *= (-1/len(neighbours))
+            avoidance_vel[0] *= (-1/len(neighbours))
+            avoidance_vel[1] *= (-1/len(neighbours))
+            ###avoidance_vel[2] *= (-1/len(neighbours))
 
-            return avoidance_dir
+            return avoidance_vel
 
 
     def cohesion(self, birds: list):     # Centre
@@ -126,13 +127,13 @@ class Bird:
                 avg_x, avg_y###, avg_z
             ]
 
-            dir_centre = [
+            vel_centre = [
                 centre[0] - self.position[0], 
                 centre[1] - self.position[1]###,
                 ###centre[2] - self.position[2]
             ]
 
-            return dir_centre
+            return vel_centre
 
     
 
@@ -167,19 +168,19 @@ class Bird:
             ###self.speed * self.direction[2]
         ]
 
-        dir_separation = self.separation(close_neighbours)
-        dir_cohesion = self.cohesion(all_birds)
-        dir_alignment = self.alignment(all_birds)
+        vel_separation = self.separation(close_neighbours)
+        vel_cohesion = self.cohesion(all_birds)
+        vel_alignment = self.alignment(all_birds)
 
-        new_direction = [
-            param.W_SEPARATION*dir_separation[0] + param.W_COHESION*dir_cohesion[0] + param.W_ALIGNMENT*dir_alignment[0],
-            param.W_SEPARATION*dir_separation[1] + param.W_COHESION*dir_cohesion[1] + param.W_ALIGNMENT*dir_alignment[1]###,
-            ###param.W_SEPARATION*dir_separation[2] + param.W_COHESION*dir_cohesion[2] + param.W_ALIGNMENT*dir_alignment[2],
+        rules_vel = [
+            param.W_SEPARATION*vel_separation[0] + param.W_COHESION*vel_cohesion[0] + param.W_ALIGNMENT*vel_alignment[0],
+            param.W_SEPARATION*vel_separation[1] + param.W_COHESION*vel_cohesion[1] + param.W_ALIGNMENT*vel_alignment[1]###,
+            ###param.W_SEPARATION*vel_separation[2] + param.W_COHESION*vel_cohesion[2] + param.W_ALIGNMENT*vel_alignment[2],
         ]
 
-        new_vel_x = self.speed*self.direction[0] + new_direction[0]*MU   ### new_vel_x = self.speed*self.direction[0]+self.acceleration*new_direction[0]*0.1
-        new_vel_y = self.speed*self.direction[1] + new_direction[1]*MU
-        ###new_vel_z = self.speed*self.direction[2]+new_direction[2]*0.5
+        new_vel_x = self.previous_vel[0]*(1-param.MU) + rules_vel[0]*param.MU  
+        new_vel_y = self.previous_vel[1]*(1-param.MU) + rules_vel[1]*param.MU
+        ###new_vel_z = self.previous_vel[2]+rules_vel[2]*param.MU
 
         new_speed = math.sqrt(new_vel_x**2 + new_vel_y**2)
         ###new_speed = math.sqrt(new_vel_x**2 + new_vel_y**2 + new_vel_z**2)
