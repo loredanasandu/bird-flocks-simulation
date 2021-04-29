@@ -29,7 +29,7 @@ TIME_DELTA: small interval of time used to update position based on velocity
 
 DIM = 3
 
-NUM_BIRDS = 30
+NUM_BIRDS = 20
 
 W_SEPARATION = 0.1
 W_COHESION = 0
@@ -38,15 +38,15 @@ W_ALIGNMENT = 0.9
 ### EXPLICAR
 MU = 0.01
 
-WIDTH = 1100
-HEIGHT = 1100
+WIDTH = 1000
+HEIGHT = 1000
 
 X_MIN = -WIDTH/2
 X_MAX = -X_MIN
 Y_MIN = X_MIN
 Y_MAX = X_MAX
-Z_MIN = X_MAX
-Z_MAX = X_MIN
+Z_MIN = X_MIN
+Z_MAX = X_MAX
 
 MIN_DIST = 100
 
@@ -57,3 +57,5 @@ BOUNDARY_DELTA = 10
 TIME_DELTA = 0.1
 
 FPS = 30
+
+ROTATION = 10

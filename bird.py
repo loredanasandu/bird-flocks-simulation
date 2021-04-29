@@ -9,10 +9,7 @@ import statistics
 class Bird:
     """The bird class"""
 
-    birds_counter = 0
-
-    def __init__(self, index: int, position: list, direction: list,
-                 speed: float, acceleration: float):
+    def __init__(self, index: int, position: list, direction: list, speed: float):
         """
         Constructor for the bird class.
 
@@ -29,86 +26,54 @@ class Bird:
         self.speed = speed
         self.previous_vel = 0
 
-        Bird.birds_counter += 1
-
-    def __str__(self):
-        """Returns display string"""
-        return str(self.index) + " " + str(self.position) + " " + str(self.direction) + " " + str(self.speed) + " " + str(self.acceleration)
-
-    def __repr__(self):
-        """Returns representation string"""
-        return str(self.index) + " " + str(self.position) + " " + str(self.direction) + " " + str(self.speed) + " " + str(self.acceleration)
-
-    def __eq__(self, other_self):
-        """Special comparison method.
-        Returns True if birds are the same (based on index), False otherwise.
-        """
-        return self.index == other_self.index
-    
-
-    def countBirds(self):
-        """Returns current number of birds in simulation"""
-        return Bird.birds_counter
-
 
     def updatePos(self, diff_time):
         """Update bird's position using speed and direction.
         Takes into consideration boundary conditions"""
 
-        new_x = self.position[0] + self.speed*self.direction[0]*diff_time
-        new_y = self.position[1] + self.speed*self.direction[1]*diff_time
-        ###new_z = self.position[2] + self.speed*self.direction[2]*diff_time
+        new_pos = [self.position[i] + self.speed*self.direction[i]*diff_time for i in range(param.DIM)]
 
-        ###IMPLEMENT
         # Apply boundary conditions
-        if new_x < param.X_MIN + param.BOUNDARY_DELTA:
-            new_x = param.X_MAX - param.BOUNDARY_DELTA
-        elif new_x > param.X_MAX - param.BOUNDARY_DELTA:
-            new_x = param.X_MIN + param.BOUNDARY_DELTA
+        if new_pos[0] < param.X_MIN + param.BOUNDARY_DELTA:
+            new_pos[0] = param.X_MAX - param.BOUNDARY_DELTA
+        elif new_pos[0] > param.X_MAX - param.BOUNDARY_DELTA:
+            new_pos[0] = param.X_MIN + param.BOUNDARY_DELTA
         
-        if new_y < param.Y_MIN + param.BOUNDARY_DELTA:
-            new_y = param.Y_MAX - param.BOUNDARY_DELTA
-        elif new_y > param.Y_MAX - param.BOUNDARY_DELTA:
-            new_y = param.Y_MIN + param.BOUNDARY_DELTA
+        if new_pos[1] < param.Y_MIN + param.BOUNDARY_DELTA:
+            new_pos[1] = param.Y_MAX - param.BOUNDARY_DELTA
+        elif new_pos[1] > param.Y_MAX - param.BOUNDARY_DELTA:
+            new_pos[1] = param.Y_MIN + param.BOUNDARY_DELTA
 
-        ###if new_z < param.Z_MIN - param.BOUNDARY_DELTA:
-        ###    new_z = param.Z_MAX + param.BOUNDARY_DELTA
-        ###elif new_z > param.Z_MAX + param.BOUNDARY_DELTA:
-        ###    new_z = param.Z_MIN - param.BOUNDARY_DELTA
-
-        self.position[0] = new_x
-        self.position[1] = new_y
-        ###self.position[2] = new_z
+        if param.DIM == 3:
+            if new_pos[2] < param.Z_MIN - param.BOUNDARY_DELTA:
+               new_pos[2] = param.Z_MAX + param.BOUNDARY_DELTA
+            elif new_pos[2] > param.Z_MAX + param.BOUNDARY_DELTA:
+               new_pos[2] = param.Z_MIN - param.BOUNDARY_DELTA
+        
+        for i in range(param.DIM):
+            self.position[i] = new_pos[i]
 
     
-    def separation(self, neighbours: list):     # Avoidance  
-        ###ALGO LE PASA
+    def separation(self, neighbours: list):     # Avoidance 
         """Separate bird from neighbours that are too close."""
         if len(neighbours) == 0:
             return self.direction
         else:
-            avoidance_vel = [
-                0,0###,
-                ###0
-            ]
+            avoidance_vel = [0]*param.DIM
 
             for i in range(len(neighbours)):
-                dist = [
-                    neighbours[i].position[0]-self.position[0],
-                    neighbours[i].position[1]-self.position[1]###,
-                    ###neighbours[i].position[2]-self.position[2]
-                ]
+                dist = [neighbours[i].position[j]-self.position[j] for j in range(param.DIM)]
                 
-                mod_dist = math.sqrt(dist[0]**2+dist[1]**2)
-                ###mod_dist = math.sqrt(dist[0]**2+dist[1]**2+dist[2]**2)
+                if param.DIM == 2:
+                    mod_dist = math.sqrt(dist[0]**2+dist[1]**2)
+                elif param.DIM == 3:
+                    mod_dist = math.sqrt(dist[0]**2+dist[1]**2+dist[2]**2)
 
-                avoidance_vel[0] += (param.MIN_DIST - mod_dist)*dist[0]
-                avoidance_vel[1] += (param.MIN_DIST - mod_dist)*dist[1]
-                ###avoidance_vel[2] += (param.MIN_DIST - mod_dist)*dist[2]
+                for j in range(param.DIM):
+                    avoidance_vel[j] += (param.MIN_DIST - mod_dist)*dist[j]
 
-            avoidance_vel[0] *= (-1/len(neighbours))
-            avoidance_vel[1] *= (-1/len(neighbours))
-            ###avoidance_vel[2] *= (-1/len(neighbours))
+            for j in range(param.DIM):
+                avoidance_vel[j] *= (-1/len(neighbours))
 
             return avoidance_vel
 
@@ -119,42 +84,24 @@ class Bird:
         if len(birds) == 0:
             return self.direction
         else:
-            avg_x = statistics.mean([bird.position[0] for bird in birds])
-            avg_y = statistics.mean([bird.position[1] for bird in birds])
-            ###avg_z = statistics.mean([bird.position[2] for bird in birds])
-
-            centre = [
-                avg_x, avg_y###, avg_z
-            ]
-
-            vel_centre = [
-                centre[0] - self.position[0], 
-                centre[1] - self.position[1]###,
-                ###centre[2] - self.position[2]
-            ]
-
+            centre = [statistics.mean([bird.position[i] for bird in birds]) for i in range(param.DIM)]
+            vel_centre = [centre[i] - self.position[0] for i in range(param.DIM)]
             return vel_centre
 
-    
 
     def alignment(self, birds: list):   # Copy
-        """Update direction based on cohesion with other bird's directions."""
+        """Update direction based on cohesion with other bird's directions (average direction)."""
         if len(birds) == 0:
             return self.direction
         else:
-            avg_direction =[
-                0,0###,
-                ###0
-            ]
+            avg_direction =[0]*param.DIM
 
             for i in range(len(birds)):
-                avg_direction[0] += birds[i].direction[0]
-                avg_direction[1] += birds[i].direction[1]
-                ###avg_direction[2] += birds[i].direction[2]
+                for j in range(param.DIM):
+                    avg_direction[j] += birds[i].direction[j]
     
-            avg_direction[0] = avg_direction[0]/len(birds)
-            avg_direction[1] = avg_direction[1]/len(birds)
-            ###avg_direction[2] = avg_direction[2]/len(birds)
+            for j in range(param.DIM):
+                avg_direction[j] = avg_direction[j]/len(birds)
 
             return avg_direction
 
@@ -162,34 +109,22 @@ class Bird:
     def update(self, close_neighbours, all_birds):
         """Updates direction, speed and position, considering all rules."""
 
-        self.previous_vel = [
-            self.speed * self.direction[0],
-            self.speed * self.direction[1]###,
-            ###self.speed * self.direction[2]
-        ]
+        self.previous_vel = [self.speed * self.direction[i] for i in range(param.DIM)]
 
         vel_separation = self.separation(close_neighbours)
         vel_cohesion = self.cohesion(all_birds)
         vel_alignment = self.alignment(all_birds)
 
-        rules_vel = [
-            param.W_SEPARATION*vel_separation[0] + param.W_COHESION*vel_cohesion[0] + param.W_ALIGNMENT*vel_alignment[0],
-            param.W_SEPARATION*vel_separation[1] + param.W_COHESION*vel_cohesion[1] + param.W_ALIGNMENT*vel_alignment[1]###,
-            ###param.W_SEPARATION*vel_separation[2] + param.W_COHESION*vel_cohesion[2] + param.W_ALIGNMENT*vel_alignment[2],
-        ]
+        rules_vel = [param.W_SEPARATION*vel_separation[i] + param.W_COHESION*vel_cohesion[i] + param.W_ALIGNMENT*vel_alignment[i] for i in range(param.DIM)]
 
-        new_vel_x = self.previous_vel[0]*(1-param.MU) + rules_vel[0]*param.MU  
-        new_vel_y = self.previous_vel[1]*(1-param.MU) + rules_vel[1]*param.MU
-        ###new_vel_z = self.previous_vel[2]+rules_vel[2]*param.MU
+        new_vel = [self.previous_vel[i]*(1-param.MU) + rules_vel[i]*param.MU for i in range(param.DIM)]
 
-        new_speed = math.sqrt(new_vel_x**2 + new_vel_y**2)
-        ###new_speed = math.sqrt(new_vel_x**2 + new_vel_y**2 + new_vel_z**2)
+        if param.DIM == 2:
+            new_speed = math.sqrt(new_vel[0]**2 + new_vel[1]**2)
+        elif param.DIM == 3:
+            new_speed = math.sqrt(new_vel[0]**2 + new_vel[1]**2 + new_vel[2]**2)
 
-        self.direction = [
-            new_vel_x/new_speed,
-            new_vel_y/new_speed###,
-            ###new_vel_z/new_speed
-        ]
+        self.direction = [new_vel[i]/new_speed for i in range(param.DIM)]
 
         if new_speed > param.MAX_VEL:
             new_speed = param.MAX_VEL
@@ -202,7 +137,5 @@ class Bird:
 
 
 
-
-### Include acceleration
 ### Explain how direction of bird is defined, better
 ### To add obstacles and attractors: as birds, but add type parameter in __init__, to indicate if bird or obstacle or attractor
