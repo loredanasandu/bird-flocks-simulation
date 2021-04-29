@@ -22,26 +22,27 @@ MIN_DIST: minimum distance that should be between birds
 
 MIN_VEL: minimum speed
 MAX_VEL: maximum speed
-MIN_ACC: minimum acceleration
-MAX_ACC: maximum acceleration
 
 BOUNDARY_DELTA: threshold considered for the window boundary conditions
 TIME_DELTA: small interval of time used to update position based on velocity
 """
 
-DIM = 2
+DIM = 3
 
 NUM_BIRDS = 100
 
-W_SEPARATION = 1
-W_COHESION = 1
-W_ALIGNMENT = 1
+W_SEPARATION = 0.34
+W_COHESION = 0.33
+W_ALIGNMENT = 0.33
+
+### EXPLICAR
+MU = 0.1
 
 WIDTH = 1000
 HEIGHT = 1000
 
 X_MIN = -WIDTH/2
-X_MAX = -XMAX
+X_MAX = -X_MIN
 Y_MIN = X_MIN
 Y_MAX = X_MAX
 Z_MIN = X_MAX
@@ -49,10 +50,8 @@ Z_MAX = X_MIN
 
 MIN_DIST = 25
 
-MIN_VEL: 1
-MAX_VEL: 10
-#MIN_ACC: 0
-#MAX_ACC: 5
+MIN_VEL = 1
+MAX_VEL = 10
 
-BOUNDARY_DELTA = 2.0
+BOUNDARY_DELTA = 10.0
 TIME_DELTA = 0.1
