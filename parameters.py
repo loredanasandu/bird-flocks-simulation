@@ -27,16 +27,23 @@ BOUNDARY_DELTA: threshold considered for the window boundary conditions
 TIME_DELTA: small interval of time used to update position based on velocity
 """
 
-DIM = 3
+
+### EXPLICAR
+
+
+import math
+
+
+DIM = 2
 
 NUM_BIRDS = 20
 
-W_SEPARATION = 0.1
-W_COHESION = 0
-W_ALIGNMENT = 0.9
+W_AVOIDANCE = 0
+W_CENTER = 0
+W_COPY = 10
+W_VIEW = 1
 
-### EXPLICAR
-MU = 0.01
+MU = 0.05
 
 WIDTH = 1000
 HEIGHT = 1000
@@ -48,14 +55,19 @@ Y_MAX = X_MAX
 Z_MIN = X_MIN
 Z_MAX = X_MAX
 
-MIN_DIST = 100
+MIN_DIST = 25
+GROUP_DIST = 200
+VIEW_DIST = 50
+VIEW_ANGLE = math.pi/4
 
 MIN_VEL = 20
-MAX_VEL = 50
+MAX_VEL = 40
 
 BOUNDARY_DELTA = 10
 TIME_DELTA = 0.1
+DELTA = 0.0001
 
 FPS = 30
 
+### EXPLICAR
 ROTATION = 10

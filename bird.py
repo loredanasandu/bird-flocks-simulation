@@ -5,6 +5,7 @@ Here is defined the structure of a bird in the simulation.
 import parameters as param
 import math
 import statistics
+import copy
 
 class Bird:
     """The bird class"""
@@ -54,7 +55,7 @@ class Bird:
             self.position[i] = new_pos[i]
 
     
-    def separation(self, neighbours: list):     # Avoidance 
+    def avoidance(self, neighbours: list):
         """Separate bird from neighbours that are too close."""
         if len(neighbours) == 0:
             return self.direction
@@ -78,44 +79,81 @@ class Bird:
             return avoidance_vel
 
 
-    def cohesion(self, birds: list):     # Centre
+    def center(self, group_birds: list):
         """Update direction based on cohesion with other bird's positions.
         Bird will change direction to move toward the average position of all birds."""
-        if len(birds) == 0:
+        if len(group_birds) == 0:
             return self.direction
         else:
-            centre = [statistics.mean([bird.position[i] for bird in birds]) for i in range(param.DIM)]
-            vel_centre = [centre[i] - self.position[0] for i in range(param.DIM)]
-            return vel_centre
+            center = [statistics.mean([bird.position[i] for bird in group_birds]) for i in range(param.DIM)]
+            vel_center = [center[i] - self.position[0] for i in range(param.DIM)]
+            return vel_center
 
 
-    def alignment(self, birds: list):   # Copy
+    def copy(self, group_birds: list):
         """Update direction based on cohesion with other bird's directions (average direction)."""
-        if len(birds) == 0:
+        if len(group_birds) == 0:
             return self.direction
         else:
             avg_direction =[0]*param.DIM
 
-            for i in range(len(birds)):
+            for i in range(len(group_birds)):
                 for j in range(param.DIM):
-                    avg_direction[j] += birds[i].direction[j]
+                    avg_direction[j] += group_birds[i].direction[j]
     
             for j in range(param.DIM):
-                avg_direction[j] = avg_direction[j]/len(birds)
+                avg_direction[j] = avg_direction[j]/len(group_birds)
 
             return avg_direction
 
 
-    def update(self, close_neighbours, all_birds):
+    def view(self, group_birds: list):
+        """Update direction based on the bird's view (move if there is another bird in area of view)."""
+
+        if param.DIM == 2:
+            orientation = 0
+            counter = 0
+
+            for bird in group_birds:
+                if bird.index != self.index:
+                    vect = [bird.position[i] - self.position[i] for i in range(param.DIM)]
+                    scalar_product = sum([self.direction[i]*vect[i] for i in range(param.DIM)])
+                    norm_self = math.sqrt(sum([self.direction[i]**2 for i in range(param.DIM)]))
+                    norm_vect = math.sqrt(sum([vect[i]**2 for i in range(param.DIM)]))
+                    norm_prod = norm_self*norm_vect
+                    div = scalar_product/norm_prod
+                    if div <= -1:
+                        div = -1 + param.DELTA
+                    elif div >= 1:
+                        div = 1 - param.DELTA
+                    angle = math.acos(div)
+
+                    if abs(angle) < param.VIEW_ANGLE and norm_vect < param.VIEW_DIST:
+                        orientation += (angle/abs(angle))*(param.VIEW_DIST-norm_vect)
+                        counter += 1
+            
+            orthogonal = [self.direction[1],-self.direction[0]]
+            if counter != 0:
+                view_direction = [orientation*(orthogonal[i]/counter) for i in range(param.DIM)]
+                return view_direction
+            else:
+                return copy.copy(self.direction)
+
+        elif param.DIM == 3:
+            return [0]*param.DIM
+
+
+    def update(self, close_neighbours, group_birds):
         """Updates direction, speed and position, considering all rules."""
 
         self.previous_vel = [self.speed * self.direction[i] for i in range(param.DIM)]
 
-        vel_separation = self.separation(close_neighbours)
-        vel_cohesion = self.cohesion(all_birds)
-        vel_alignment = self.alignment(all_birds)
+        vel_avoidance = self.avoidance(close_neighbours)
+        vel_center = self.center(group_birds)
+        vel_copy = self.copy(group_birds)
+        vel_view = self.view(group_birds)
 
-        rules_vel = [param.W_SEPARATION*vel_separation[i] + param.W_COHESION*vel_cohesion[i] + param.W_ALIGNMENT*vel_alignment[i] for i in range(param.DIM)]
+        rules_vel = [param.W_AVOIDANCE*vel_avoidance[i] + param.W_CENTER*vel_center[i] + param.W_COPY*vel_copy[i] + param.W_VIEW*vel_view[i] for i in range(param.DIM)]
 
         new_vel = [self.previous_vel[i]*(1-param.MU) + rules_vel[i]*param.MU for i in range(param.DIM)]
 

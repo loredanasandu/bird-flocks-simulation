@@ -27,7 +27,11 @@ def generateBirds():
             ]
 
 
-        ### para poner en una línea: position[1], position[2] = 0,0
+        # to place along a line: position[1], position[2] = 0,0
+        position[1] = 0
+        if param.DIM == 3:
+            position[2] = 0
+        
         
         speed = random.randint(param.MIN_VEL, param.MAX_VEL)
 
