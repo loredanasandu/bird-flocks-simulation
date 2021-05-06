@@ -18,14 +18,23 @@ import math
 
 assert param.DIM == 2 or param.DIM == 3
 assert param.WIDTH == param.HEIGHT
+for att_point in param.ATTRACTION_POINTS:
+    assert len(att_point) == param.DIM
+for repul_point in param.REPULSION_POINTS:
+    assert len(repul_point) == param.DIM
 
+
+# Initialize window and display
 glutInit()
 glutInitDisplayMode(GLUT_RGBA | GLUT_DOUBLE | GLUT_DEPTH)
 graphics.initialize_window()
 clock = pygame.time.Clock()
 
-# Initialize birds
+# Initialize birds, attraction points and repulsion points
 birds = initialize_birds.generateBirds()
+attraction_points = initialize_birds.generateAttractionPoints()
+repulsion_points = initialize_birds.generateRepulsionPoints()
+
 
 # Initialize lists of neighbours and group mates for each bird
 group_birds = []
@@ -131,6 +140,7 @@ while run:
 
 
     # Draw birds
+
     if param.DIM == 2:
         for bird in birds:
             head = bird.position
@@ -160,13 +170,29 @@ while run:
             
             # Draw cone
             graphics.draw_cone(pos = head, direction = bird.direction, radius = 6, height = 18)
+    
 
+
+    # Draw attraction and repulsion points
+
+    if param.DIM == 2:
+        for point in attraction_points:
+            graphics.draw_circle(point.position, 'green')
+        for point in repulsion_points:
+            graphics.draw_circle(point.position, 'red')
+    
+    elif param.DIM == 3:
+        for point in attraction_points:
+            graphics.draw_sphere(point.position, 'green')
+        for point in repulsion_points:
+            graphics.draw_sphere(point.position, 'red')
+            
 
 
     # Update birds
 
     for i in range(len(birds)):
-        birds[i].update(close_neighbours[i],group_birds[i])
+        birds[i].update(close_neighbours[i],group_birds[i], attraction_points, repulsion_points)
 
     pygame.display.flip()
     clock.tick(param.FPS)

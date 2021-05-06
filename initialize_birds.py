@@ -53,10 +53,42 @@ def generateBirds():
             
             direction = [direction_x, direction_y, direction_z]
 
-        birds.append(bird.Bird(i, position, direction, speed))
-
+        birds.append(bird.Bird(i, position, direction, speed, obj_type=1))
 
     return birds
 
 
-#### generate obstacles and attractors
+def generateAttractionPoints():
+    """
+    Generate a list of attraction points.
+    """
+
+    attraction_points = []
+    i = param.NUM_BIRDS
+    for point in param.ATTRACTION_POINTS:
+        position = list(point)
+        direction = [0]*param.DIM
+
+        attraction_points.append(bird.Bird(i, position, direction, speed=0, obj_type=-1))
+
+        i += 1
+
+    return attraction_points
+
+
+def generateRepulsionPoints():
+    """
+    Generate a list of repulsion points.
+    """
+
+    repulsion_points = []
+    i = param.NUM_BIRDS + len(param.ATTRACTION_POINTS)
+    for point in param.REPULSION_POINTS:
+        position = list(point)
+        direction = [0]*param.DIM
+
+        repulsion_points.append(bird.Bird(i, position, direction, speed=0, obj_type=-2))
+
+        i += 1
+
+    return repulsion_points

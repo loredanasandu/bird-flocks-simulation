@@ -10,7 +10,7 @@ import copy
 class Bird:
     """The bird class"""
 
-    def __init__(self, index: int, position: list, direction: list, speed: float):
+    def __init__(self, index: int, position: list, direction: list, speed: float, obj_type: int):
         """
         Constructor for the bird class.
 
@@ -26,6 +26,7 @@ class Bird:
         self.direction = direction
         self.speed = speed
         self.previous_vel = 0
+        self.type = obj_type    # 1 if bird, -1 if attraction point, -2 if repulsion point
 
 
     def updatePos(self, diff_time):
@@ -142,8 +143,19 @@ class Bird:
         elif param.DIM == 3:
             return [0]*param.DIM
 
+    
+    def attraction(self, attraction_points):
+        pass
+        ### IMPLEMENTAR
+        #return vel_attraction
 
-    def update(self, close_neighbours, group_birds):
+    def repulsion(self, repulsion_points):
+        pass
+        ### IMPLEMENTAR
+        #return vel_repulsion
+
+
+    def update(self, close_neighbours, group_birds, attraction_points, repulsion_points):
         """Updates direction, speed and position, considering all rules."""
 
         self.previous_vel = [self.speed * self.direction[i] for i in range(param.DIM)]
@@ -172,8 +184,3 @@ class Bird:
         self.speed = new_speed
 
         self.updatePos(param.TIME_DELTA)
-
-
-
-### Explain how direction of bird is defined, better
-### To add obstacles and attractors: as birds, but add type parameter in __init__, to indicate if bird or obstacle or attractor
