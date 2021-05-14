@@ -70,6 +70,8 @@ class Bird:
                     mod_dist = math.sqrt(dist[0]**2+dist[1]**2)
                 elif param.DIM == 3:
                     mod_dist = math.sqrt(dist[0]**2+dist[1]**2+dist[2]**2)
+                    
+                dist = [dist[i]/mod_dist for i in range(param.DIM)]
 
                 for j in range(param.DIM):
                     avoidance_vel[j] += (param.MIN_DIST - mod_dist)*dist[j]
@@ -111,48 +113,93 @@ class Bird:
     def view(self, group_birds: list):
         """Update direction based on the bird's view (move if there is another bird in area of view)."""
 
-        if param.DIM == 2:
-            orientation = 0
-            counter = 0
+        orientation = 0
+        counter = 0
+        view_vel = [0]*param.DIM
 
-            for bird in group_birds:
-                if bird.index != self.index:
-                    vect = [bird.position[i] - self.position[i] for i in range(param.DIM)]
-                    scalar_product = sum([self.direction[i]*vect[i] for i in range(param.DIM)])
-                    norm_self = math.sqrt(sum([self.direction[i]**2 for i in range(param.DIM)]))
-                    norm_vect = math.sqrt(sum([vect[i]**2 for i in range(param.DIM)]))
-                    norm_prod = norm_self*norm_vect
-                    div = scalar_product/norm_prod
-                    if div <= -1:
-                        div = -1 + param.DELTA
-                    elif div >= 1:
-                        div = 1 - param.DELTA
-                    angle = math.acos(div)
+        for bird in group_birds:
+            if bird.index != self.index:
+                vect_dist = [bird.position[i] - self.position[i] for i in range(param.DIM)]
+                scalar_product = sum([self.direction[i]*vect_dist[i] for i in range(param.DIM)])
+                norm_self = math.sqrt(sum([self.direction[i]**2 for i in range(param.DIM)]))
+                norm_dist = math.sqrt(sum([vect_dist[i]**2 for i in range(param.DIM)]))
+                norm_prod = norm_self*norm_dist
+                div = scalar_product/norm_prod
+                if div <= -1:
+                    div = -1 + param.DELTA
+                elif div >= 1:
+                    div = 1 - param.DELTA
+                angle = math.acos(div)
 
-                    if abs(angle) < param.VIEW_ANGLE and norm_vect < param.VIEW_DIST:
-                        orientation += (angle/abs(angle))*(param.VIEW_DIST-norm_vect)
-                        counter += 1
+                if abs(angle) < param.VIEW_ANGLE and norm_dist < param.VIEW_DIST:
+
+                    if param.DIM == 2:
+                        orientation += (angle/abs(angle))*(param.VIEW_DIST-norm_dist)
+
+                    elif param.DIM == 3:
+                        vect_dist = [(vect_dist[i]*norm_self) / (norm_dist*math.cos(angle)) for i in range(param.DIM)]
+                        
+                        view_vel_bird = [self.direction[i] - vect_dist[i] for i in range(param.DIM)]
+                        norm_view_vel_bird = math.sqrt(sum([view_vel_bird[i]**2 for i in range(param.DIM)]))
+
+                        view_vel = [view_vel[i] + ((view_vel_bird[i]/norm_view_vel_bird) * (param.VIEW_DIST - norm_view_vel_bird)) for i in range(param.DIM)]
+
+                    counter += 1
+
+        if counter != 0:
+
+            if param.DIM == 2:
+                orthogonal = [self.direction[1],-self.direction[0]]
+                view_vel = [orientation*(orthogonal[i]/counter) for i in range(param.DIM)]
+                return view_vel
             
-            orthogonal = [self.direction[1],-self.direction[0]]
-            if counter != 0:
-                view_direction = [orientation*(orthogonal[i]/counter) for i in range(param.DIM)]
-                return view_direction
-            else:
-                return copy.copy(self.direction)
+            elif param.DIM == 3:
+                view_vel = [view_vel[i]/counter for i in range(param.DIM)]
+                return view_vel
 
-        elif param.DIM == 3:
-            return [0]*param.DIM
-
-    
+        else:
+            return copy.copy(self.direction)
+            
+                        
     def attraction(self, attraction_points):
-        pass
-        ### IMPLEMENTAR
-        #return vel_attraction
+
+        vel_attraction = [0]*param.DIM
+        counter = 0
+
+        for point in attraction_points:
+            dist = [point.position[i] - self.position[i] for i in range(param.DIM)]
+            norm_dist = math.sqrt(sum([dist[i]**2 for i in range(param.DIM)]))
+
+            if norm_dist < param.ATTRACTION_DIST:
+                vel_attraction = [vel_attraction[i] + dist[i] for i in range(param.DIM)]
+                counter += 1
+
+        if counter != 0:
+            vel_attraction = [vel_attraction[i] / counter for i in range(param.DIM)]
+            return vel_attraction
+
+        else:
+            return copy.copy(self.direction)
+
 
     def repulsion(self, repulsion_points):
-        pass
-        ### IMPLEMENTAR
-        #return vel_repulsion
+
+        vel_repulsion = [0]*param.DIM
+        counter = 0
+
+        for point in repulsion_points:
+            dist = [point.position[i] - self.position[i] for i in range(param.DIM)]
+            norm_dist = math.sqrt(sum([dist[i]**2 for i in range(param.DIM)]))
+
+            if norm_dist < param.REPULSION_DIST:
+                vel_repulsion = [vel_repulsion[i] + dist[i] for i in range(param.DIM)]
+                counter += 1
+
+        if counter != 0:
+            vel_repulsion = [-vel_repulsion[i] / counter for i in range(param.DIM)]
+            return vel_repulsion
+        else:
+            return copy.copy(self.direction)
 
 
     def update(self, close_neighbours, group_birds, attraction_points, repulsion_points):
@@ -164,8 +211,11 @@ class Bird:
         vel_center = self.center(group_birds)
         vel_copy = self.copy(group_birds)
         vel_view = self.view(group_birds)
+        vel_attraction = self.attraction(attraction_points)
+        vel_repulsion = self.repulsion(repulsion_points)
 
-        rules_vel = [param.W_AVOIDANCE*vel_avoidance[i] + param.W_CENTER*vel_center[i] + param.W_COPY*vel_copy[i] + param.W_VIEW*vel_view[i] for i in range(param.DIM)]
+        rules_vel = [param.W_AVOIDANCE*vel_avoidance[i] + param.W_CENTER*vel_center[i] + param.W_COPY*vel_copy[i] + param.W_VIEW*vel_view[i] \
+                    + param.W_ATTRACTION*vel_attraction[i] + param.W_REPULSION*vel_repulsion[i] for i in range(param.DIM)]
 
         new_vel = [self.previous_vel[i]*(1-param.MU) + rules_vel[i]*param.MU for i in range(param.DIM)]
 
@@ -184,3 +234,69 @@ class Bird:
         self.speed = new_speed
 
         self.updatePos(param.TIME_DELTA)
+
+
+
+
+
+
+# if param.DIM == 2:
+#             orientation = 0
+#             counter = 0
+
+#             for bird in group_birds:
+#                 if bird.index != self.index:
+#                     vect_dist = [bird.position[i] - self.position[i] for i in range(param.DIM)]
+#                     scalar_product = sum([self.direction[i]*vect_dist[i] for i in range(param.DIM)])
+#                     norm_self = math.sqrt(sum([self.direction[i]**2 for i in range(param.DIM)]))
+#                     norm_dist = math.sqrt(sum([vect_dist[i]**2 for i in range(param.DIM)]))
+#                     norm_prod = norm_self*norm_dist
+#                     div = scalar_product/norm_prod
+#                     if div <= -1:
+#                         div = -1 + param.DELTA
+#                     elif div >= 1:
+#                         div = 1 - param.DELTA
+#                     angle = math.acos(div)
+
+#                     if abs(angle) < param.VIEW_ANGLE and norm_dist < param.VIEW_DIST:
+#                         orientation += (angle/abs(angle))*(param.VIEW_DIST-norm_dist)
+#                         counter += 1
+            
+#             orthogonal = [self.direction[1],-self.direction[0]]
+#             if counter != 0:
+#                 view_vel = [orientation*(orthogonal[i]/counter) for i in range(param.DIM)]
+#                 return view_vel
+#             else:
+#                 return copy.copy(self.direction)
+
+#         elif param.DIM == 3:
+
+#             view_vel = [0]*param.DIM
+#             counter = 0
+            
+#             for bird in group_birds:
+#                 if bird.index != self.index:
+#                     vect_dist = [bird.position[i] - self.position[i] for i in range(param.DIM)]
+#                     scalar_product = sum([self.direction[i]*vect_dist[i] for i in range(param.DIM)])
+#                     norm_self = math.sqrt(sum([self.direction[i]**2 for i in range(param.DIM)]))
+#                     norm_dist = math.sqrt(sum([vect_dist[i]**2 for i in range(param.DIM)]))
+#                     norm_prod = norm_self*norm_dist
+#                     div = scalar_product/norm_prod
+#                     if div <= -1:
+#                         div = -1 + param.DELTA
+#                     elif div >= 1:
+#                         div = 1 - param.DELTA
+#                     angle = math.acos(div)
+
+#                     if abs(angle) < param.VIEW_ANGLE and norm_dist < param.VIEW_DIST:
+#                         vect_dist = [(vect_dist[i]*norm_self) / (norm_dist*math.cos(angle)) for i in range(param.DIM)]
+                        
+#                         view_vel_bird = [self.direction[i] - vect_dist[i] for i in range(param.DIM)]
+#                         norm_view_vel_bird = math.sqrt(sum([view_vel_bird[i]**2 for i in range(param.DIM)]))
+
+#                         view_vel = [view_vel[i] + ((view_vel_bird[i]/norm_view_vel_bird) * (param-VIEW_DIST - norm_view_vel_bird)) for i in range(param.DIM)]
+
+#                         counter += 1
+
+#             if counter != 0:
+#                 view_vel = [view_vel[i]/counter for i in range(param.DIM)]
