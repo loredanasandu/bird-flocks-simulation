@@ -1,0 +1,40 @@
+\indexentry{module@\spxentry{module}!parameters@\spxentry{parameters}|hyperpage}{1}
+\indexentry{parameters@\spxentry{parameters}!module@\spxentry{module}|hyperpage}{1}
+\indexentry{module@\spxentry{module}!parameters@\spxentry{parameters}|hyperpage}{1}
+\indexentry{parameters@\spxentry{parameters}!module@\spxentry{module}|hyperpage}{1}
+\indexentry{module@\spxentry{module}!bird@\spxentry{bird}|hyperpage}{4}
+\indexentry{bird@\spxentry{bird}!module@\spxentry{module}|hyperpage}{4}
+\indexentry{module@\spxentry{module}!bird@\spxentry{bird}|hyperpage}{4}
+\indexentry{bird@\spxentry{bird}!module@\spxentry{module}|hyperpage}{4}
+\indexentry{Bird (class in bird)@\spxentry{Bird}\spxextra{class in bird}|hyperpage}{4}
+\indexentry{avoidance() (bird.Bird method)@\spxentry{avoidance()}\spxextra{bird.Bird method}|hyperpage}{4}
+\indexentry{center() (bird.Bird method)@\spxentry{center()}\spxextra{bird.Bird method}|hyperpage}{4}
+\indexentry{copy() (bird.Bird method)@\spxentry{copy()}\spxextra{bird.Bird method}|hyperpage}{5}
+\indexentry{repulsion() (bird.Bird method)@\spxentry{repulsion()}\spxextra{bird.Bird method}|hyperpage}{5}
+\indexentry{update() (bird.Bird method)@\spxentry{update()}\spxextra{bird.Bird method}|hyperpage}{5}
+\indexentry{updateAttractor() (bird.Bird method)@\spxentry{updateAttractor()}\spxextra{bird.Bird method}|hyperpage}{5}
+\indexentry{updatePos() (bird.Bird method)@\spxentry{updatePos()}\spxextra{bird.Bird method}|hyperpage}{6}
+\indexentry{updateRepulsor() (bird.Bird method)@\spxentry{updateRepulsor()}\spxextra{bird.Bird method}|hyperpage}{6}
+\indexentry{view() (bird.Bird method)@\spxentry{view()}\spxextra{bird.Bird method}|hyperpage}{6}
+\indexentry{module@\spxentry{module}!initialize\_birds@\spxentry{initialize\_birds}|hyperpage}{7}
+\indexentry{initialize\_birds@\spxentry{initialize\_birds}!module@\spxentry{module}|hyperpage}{7}
+\indexentry{module@\spxentry{module}!initialize\_birds@\spxentry{initialize\_birds}|hyperpage}{7}
+\indexentry{initialize\_birds@\spxentry{initialize\_birds}!module@\spxentry{module}|hyperpage}{7}
+\indexentry{generateAttractionPoints() (in module initialize\_birds)@\spxentry{generateAttractionPoints()}\spxextra{in module initialize\_birds}|hyperpage}{7}
+\indexentry{generateBirds() (in module initialize\_birds)@\spxentry{generateBirds()}\spxextra{in module initialize\_birds}|hyperpage}{7}
+\indexentry{generateRepulsionPoints() (in module initialize\_birds)@\spxentry{generateRepulsionPoints()}\spxextra{in module initialize\_birds}|hyperpage}{7}
+\indexentry{module@\spxentry{module}!graphics@\spxentry{graphics}|hyperpage}{8}
+\indexentry{graphics@\spxentry{graphics}!module@\spxentry{module}|hyperpage}{8}
+\indexentry{module@\spxentry{module}!graphics@\spxentry{graphics}|hyperpage}{8}
+\indexentry{graphics@\spxentry{graphics}!module@\spxentry{module}|hyperpage}{8}
+\indexentry{draw\_circle() (in module graphics)@\spxentry{draw\_circle()}\spxextra{in module graphics}|hyperpage}{8}
+\indexentry{draw\_cone() (in module graphics)@\spxentry{draw\_cone()}\spxextra{in module graphics}|hyperpage}{8}
+\indexentry{draw\_container() (in module graphics)@\spxentry{draw\_container()}\spxextra{in module graphics}|hyperpage}{8}
+\indexentry{draw\_sphere() (in module graphics)@\spxentry{draw\_sphere()}\spxextra{in module graphics}|hyperpage}{8}
+\indexentry{draw\_triangle() (in module graphics)@\spxentry{draw\_triangle()}\spxextra{in module graphics}|hyperpage}{9}
+\indexentry{initialize\_window() (in module graphics)@\spxentry{initialize\_window()}\spxextra{in module graphics}|hyperpage}{9}
+\indexentry{module@\spxentry{module}!main@\spxentry{main}|hyperpage}{10}
+\indexentry{main@\spxentry{main}!module@\spxentry{module}|hyperpage}{10}
+\indexentry{module@\spxentry{module}!main@\spxentry{main}|hyperpage}{10}
+\indexentry{main@\spxentry{main}!module@\spxentry{module}|hyperpage}{10}
+\indexentry{main() (in module main)@\spxentry{main()}\spxextra{in module main}|hyperpage}{10}

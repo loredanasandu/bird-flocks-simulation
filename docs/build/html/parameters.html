@@ -1,0 +1,341 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>parameters module &#8212; Bird Flocks Simulation  documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="bird module" href="bird.html" />
+    <link rel="prev" title="Documentation for the Bird Flocks Simulation" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-parameters">
+<span id="parameters-module"></span><h1>parameters module<a class="headerlink" href="#module-parameters" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="module-0"></span><p>Parameters used while running the simulation.</p>
+<dl class="py data">
+<dt>
+<code class="sig-name descname">DIM:</code></dt>
+<dd><p>(<cite>int</cite>) dimension of the container and simulation (2 for plane, 3 for cube).</p>
+</dd></dl>
+
+<dl class="py data">
+<dt>
+<code class="sig-name descname">NUM_BIRDS:</code></dt>
+<dd><p>(<cite>int</cite>) number of birds in simulation.</p>
+</dd></dl>
+
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<dl class="py data">
+<dt>
+<code class="sig-name descname">ATTRACTION_POINTS:</code></dt>
+<dd><p>(<cite>list</cite>) coordinates where attraction points will be initially located.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt>
+<code class="sig-name descname">REPULSION_POINTS:</code></dt>
+<dd><p>(<cite>list</cite>) of coordinates where repulsion points will be initially located.</p>
+</dd></dl>
+
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<dl class="py data">
+<dt>
+<code class="sig-name descname">W_AVOIDANCE:</code></dt>
+<dd><p>(<cite>float</cite>) ratio of importance of rule of avoidance over the rest.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt>
+<code class="sig-name descname">W_CENTER:</code></dt>
+<dd><p>(<cite>float</cite>) ratio of importance of rule of center over the rest.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt>
+<code class="sig-name descname">W_COPY:</code></dt>
+<dd><p>(<cite>float</cite>) ratio of importance of rule of copy over the rest.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt>
+<code class="sig-name descname">W_VIEW:</code></dt>
+<dd><p>(<cite>float</cite>) ratio of importance of rule of view over the rest.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt>
+<code class="sig-name descname">W_ATTRACTION:</code></dt>
+<dd><p>(<cite>float</cite>) ratio of importance of the attraction of the poins over the rest of rules.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt>
+<code class="sig-name descname">W_REPULSION:</code></dt>
+<dd><p>(<cite>float</cite>) ratio of importance of the repulsion of the poins over the rest of rules.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt>
+<code class="sig-name descname">MU:</code></dt>
+<dd><p>(<cite>float</cite>) weight of new velocity vector over current one (used to smooth change of speed and direction).</p>
+</dd></dl>
+
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<dl class="py data">
+<dt>
+<code class="sig-name descname">MIN_DIST:</code></dt>
+<dd><p>(<cite>int</cite>) minimum distance that should be between birds (i.e. birds closer than this distance are too close), in pixels.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt>
+<code class="sig-name descname">GROUP_DIST:</code></dt>
+<dd><p>(<cite>int</cite>) distance that determines the boundary of groups of birds (i.e. birds closer than this distance will be considered of the same group), in pixels.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt>
+<code class="sig-name descname">VIEW_DIST:</code></dt>
+<dd><p>(<cite>int</cite>) distance that should be between birds regarding the view rule (i.e. birds that are in the vision area of a bird and closer than this distance are too close), in pixels.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt>
+<code class="sig-name descname">VIEW_ANGLE:</code></dt>
+<dd><p>(<cite>float</cite>) angle that determines the vision area of a bird, in radians.</p>
+</dd></dl>
+
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<dl class="py data">
+<dt>
+<code class="sig-name descname">MIN_DIST_ATTRACTOR:</code></dt>
+<dd><p>(<cite>int</cite>) distance from which attraction points will try to escape from birds (because it will “notice” them), in pixels.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt>
+<code class="sig-name descname">MIN_DIST_REPULSOR:</code></dt>
+<dd><p>(<cite>int</cite>) distance from which attraction points will try to go towards from birds (because it will “notice” them), in pixels.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt>
+<code class="sig-name descname">GROUP_DIST_REPULSOR:</code></dt>
+<dd><p>(<cite>int</cite>) distance that determines which birds are withing the group boundary of the repulsion point (so it will try to go towards the center of that group), in pixels.</p>
+</dd></dl>
+
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<dl class="py data">
+<dt>
+<code class="sig-name descname">WIDTH:</code></dt>
+<dd><p>(<cite>int</cite>) width of screen, in pixels.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt>
+<code class="sig-name descname">HEIGHT:</code></dt>
+<dd><p>(<cite>int</cite>) height of screen, in pixels.</p>
+</dd></dl>
+
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<dl class="py data">
+<dt>
+<code class="sig-name descname">X_MIN:</code></dt>
+<dd><p>(<cite>int</cite>) minimum value for x coordinate of any bird, in pixels.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt>
+<code class="sig-name descname">X_MAX:</code></dt>
+<dd><p>(<cite>int</cite>) maximum value for x coordinate of any bird, in pixels.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt>
+<code class="sig-name descname">Y_MIN:</code></dt>
+<dd><p>(<cite>int</cite>) minimum value for y coordinate of any bird, in pixels.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt>
+<code class="sig-name descname">Y_MAX:</code></dt>
+<dd><p>(<cite>int</cite>) maximum value for y coordinate of any bird, in pixels.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt>
+<code class="sig-name descname">Z_MIN:</code></dt>
+<dd><p>(<cite>int</cite>) minimum value for z coordinate of any bird, in pixels.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt>
+<code class="sig-name descname">Z_MAX:</code></dt>
+<dd><p>(<cite>int</cite>) maximum value for z coordinate of any bird, in pixels.</p>
+</dd></dl>
+
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<dl class="py data">
+<dt>
+<code class="sig-name descname">MIN_VEL:</code></dt>
+<dd><p>(<cite>int</cite>) minimum speed of birds and points of attraction and repulsion.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt>
+<code class="sig-name descname">MAX_VEL:</code></dt>
+<dd><p>(<cite>int</cite>) maximum speed of birds and points of attraction and repulsion.</p>
+</dd></dl>
+
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<dl class="py data">
+<dt>
+<code class="sig-name descname">BOUNDARY_DELTA:</code></dt>
+<dd><p>(<cite>float</cite>) threshold considered for the window boundary conditions.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt>
+<code class="sig-name descname">TIME_DELTA:</code></dt>
+<dd><p>(<cite>float</cite>) small interval of time used to update position based on velocity.</p>
+</dd></dl>
+
+<dl class="py data">
+<dt>
+<code class="sig-name descname">DELTA:</code></dt>
+<dd><p>(<cite>float</cite>) a small arbitrary float.</p>
+</dd></dl>
+
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<dl class="py data">
+<dt>
+<code class="sig-name descname">FPS:</code></dt>
+<dd><p>(<cite>int</cite>) determines the speed at which frames are updated.</p>
+</dd></dl>
+
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<dl class="py data">
+<dt>
+<code class="sig-name descname">ROTATION:</code></dt>
+<dd><p>(<cite>int</cite>) determines the speed at which cube rotates when the keys for rotation are pressed.</p>
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Bird Flocks Simulation</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">parameters module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="bird.html">bird module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="initialize_birds.html">initialize_birds module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graphics.html">graphics module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="main.html">main module</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Documentation for the Bird Flocks Simulation</a></li>
+      <li>Next: <a href="bird.html" title="next chapter">bird module</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Anna Danot, Núria Fernández, Jan Mousavi, Loredana Sandu.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/parameters.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

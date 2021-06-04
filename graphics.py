@@ -1,4 +1,6 @@
 """
+.. module:: graphics
+
 Functions used to render graphics.
 """
 
@@ -40,7 +42,11 @@ if param.DIM == 3:
 
 
 def draw_container():
-    """Draws 2D square or 3D cube that contains birds"""
+    """
+    Draws 2D square or 3D cube that contains birds.
+
+    |
+    """
     glBegin(GL_LINES)
     for edge in edges:
         for vertex in edge:
@@ -53,6 +59,12 @@ def draw_container():
 
 
 def initialize_window():
+    """
+    Initializes window where simulation will be shown when running the program.
+
+    |
+    """
+
     pygame.init()
     display = (param.WIDTH, param.HEIGHT)
     pygame.display.set_mode(display, DOUBLEBUF | OPENGL)
@@ -67,6 +79,19 @@ def initialize_window():
 
 
 def draw_triangle(head, tail_vertex1, tail_vertex2):
+    """
+    Draws a black triangle inisde the container.
+
+    :param head: coordinates of the triangle's head vertex.
+    :type head: list
+    :param tail_vertex1: coordinates of a tail's vertex.
+    :type tail_vertex1: list
+    :param tail_vertex2: coordinates of the other tail's vertex.
+    :type tail_vertex2: list
+
+    |
+    """
+
     glBegin(GL_TRIANGLES)
     glColor3fv((0, 0, 0))
 
@@ -85,6 +110,25 @@ def draw_triangle(head, tail_vertex1, tail_vertex2):
 
 
 def draw_cone(pos, direction, radius, height, slices=7, stacks=1):
+    """
+    Draws a black cone inisde the container.
+
+    :param pos: coordinates of the cone's head vertex.
+    :type pos: list
+    :param direction: unitary vector that represents the direction in wich the cone is pointed.
+    :type direction: list
+    :param radius: radius of the cones base, in pixels.
+    :type radius: int
+    :param height: height of the cone, in pixels.
+    :type height: int
+    :param slices: Number of slices that will determine the cone's shape in the graphics, defaults to 7.
+    :type slices: int, optional
+    :param stacks: Number of stacks that will determine the cone's shape in the graphics, defaults to 1.
+    :type stacks: int, optional
+
+    |
+    """
+    
     glColor3fv((0, 0, 0))
 
     z = np.array([0.0, 0.0, 1.0])
@@ -105,6 +149,22 @@ def draw_cone(pos, direction, radius, height, slices=7, stacks=1):
 
 
 def draw_circle(position, color, radius=10, side_num=10):
+    """
+    Draws a circle of a given color.
+
+    :param position: coordinates of the circle's center point.
+    :type position: list
+    :param color: the color of the circle. For example: 'red', 'green'.
+    :type color: str
+    :param radius: radius of the circle (in pixels), defaults to 10.
+    :type radius: int, optional
+    :param side_num: radius of the circle (in pixels), defaults to 10.
+    :type side_num: int, optional
+
+    |
+    """
+    
+    
     if color == 'red':
         glColor3fv((1.0, 0, 0))
     elif color == 'green':
@@ -122,6 +182,23 @@ def draw_circle(position, color, radius=10, side_num=10):
 
 
 def draw_sphere(position,color,r=10,lats=10,longs=10):
+    """
+    Draws a sphere of a given color.
+
+    :param position: coordinates of the sphere's center point.
+    :type position: list
+    :param color: the color of the sphere. For example: 'red', 'green'
+    :type color: str
+    :param r: radius of the sphere (in pixels), defaults to 10.
+    :type r: int, optional
+    :param lats: number of lats that will determine the sphere's shape in the graphics, defaults to 10.
+    :type lats: int, optional
+    :param longs: number of longs that will determine the sphere's shape in the graphics, defaults to 10.
+    :type longs: int, optional
+
+    |
+    """
+
     if color == 'red':
         glColor3fv((1.0, 0, 0))
     elif color == 'green':

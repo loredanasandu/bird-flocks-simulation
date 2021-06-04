@@ -1,4 +1,6 @@
 """
+.. module:: initialize_birds
+
 Initialization of birds.
 """
 
@@ -7,9 +9,15 @@ import parameters as param
 import math
 import random
 
+
 def generateBirds():
     """
-    Generate a list of birds. Positions and velocity are random.
+    Generates a list of birds. Positions and velocity are random.
+
+    :return: list of instances of the class :class:`bird.Bird`.
+    :rtype: list
+
+    |
     """
 
     birds = []
@@ -53,23 +61,47 @@ def generateBirds():
             
             direction = [direction_x, direction_y, direction_z]
 
-        birds.append(bird.Bird(i, position, direction, speed, obj_type=1))
+        birds.append(bird.Bird(i, position, direction, speed, type=1))
 
     return birds
 
 
 def generateAttractionPoints():
     """
-    Generate a list of attraction points.
+    Generates a list of attraction points.
+
+    :return: list of instances of the class :class:`bird.Bird`, with the attribute :py:data:`type` assigned to -1 (which represents an Attraction Point).
+    :rtype: list
+
+    |
     """
 
     attraction_points = []
     i = param.NUM_BIRDS
     for point in param.ATTRACTION_POINTS:
-        position = list(point)
-        direction = [0]*param.DIM
 
-        attraction_points.append(bird.Bird(i, position, direction, speed=0, obj_type=-1))
+        position = list(point)
+        speed = random.randint(param.MIN_VEL, param.MAX_VEL)
+
+        if param.DIM == 2:
+            direction_x = random.choice([-1,1])*random.random()
+            direction_y = random.choice([-1,1])*math.sqrt(1-direction_x**2)
+
+            direction = [direction_x, direction_y]
+
+        else:
+            direction_x = random.choice([-1,1])*random.random()
+
+            direction_y = random.random()
+            while direction_x**2 + direction_y**2 >= 1:
+                direction_y = random.random()
+            direction_y = random.choice([-1,1])*direction_y
+
+            direction_z = random.choice([-1,1])*math.sqrt(1-direction_x**2-direction_y**2)
+            
+            direction = [direction_x, direction_y, direction_z]
+
+        attraction_points.append(bird.Bird(i, position, direction, speed, type=-1))
 
         i += 1
 
@@ -78,16 +110,40 @@ def generateAttractionPoints():
 
 def generateRepulsionPoints():
     """
-    Generate a list of repulsion points.
+    Generates a list of repulsion points.
+
+    :return: list of instances of the class :class:`bird.Bird`, with the attribute :py:data:`type` assigned to -2 (which represents an Repulsion Point).
+    :rtype: list
+
+    |
     """
 
     repulsion_points = []
     i = param.NUM_BIRDS + len(param.ATTRACTION_POINTS)
     for point in param.REPULSION_POINTS:
-        position = list(point)
-        direction = [0]*param.DIM
 
-        repulsion_points.append(bird.Bird(i, position, direction, speed=0, obj_type=-2))
+        position = list(point)
+        speed = random.randint(param.MIN_VEL, param.MAX_VEL)
+
+        if param.DIM == 2:
+            direction_x = random.choice([-1,1])*random.random()
+            direction_y = random.choice([-1,1])*math.sqrt(1-direction_x**2)
+
+            direction = [direction_x, direction_y]
+
+        else:
+            direction_x = random.choice([-1,1])*random.random()
+
+            direction_y = random.random()
+            while direction_x**2 + direction_y**2 >= 1:
+                direction_y = random.random()
+            direction_y = random.choice([-1,1])*direction_y
+
+            direction_z = random.choice([-1,1])*math.sqrt(1-direction_x**2-direction_y**2)
+            
+            direction = [direction_x, direction_y, direction_z]
+
+        repulsion_points.append(bird.Bird(i, position, direction, speed, type=-2))
 
         i += 1
 

@@ -1,0 +1,319 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bird module &#8212; Bird Flocks Simulation  documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="initialize_birds module" href="initialize_birds.html" />
+    <link rel="prev" title="parameters module" href="parameters.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="module-bird">
+<span id="bird-module"></span><h1>bird module<a class="headerlink" href="#module-bird" title="Permalink to this headline">¶</a></h1>
+<span class="target" id="module-0"></span><p>Here is defined the structure of a bird in the simulation.</p>
+<dl class="py class">
+<dt id="bird.Bird">
+<em class="property">class </em><code class="sig-prename descclassname">bird.</code><code class="sig-name descname">Bird</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">index</span><span class="p">:</span> <span class="n">int</span></em>, <em class="sig-param"><span class="n">position</span><span class="p">:</span> <span class="n">list</span></em>, <em class="sig-param"><span class="n">direction</span><span class="p">:</span> <span class="n">list</span></em>, <em class="sig-param"><span class="n">speed</span><span class="p">:</span> <span class="n">float</span></em>, <em class="sig-param"><span class="n">type</span><span class="p">:</span> <span class="n">int</span></em><span class="sig-paren">)</span><a class="headerlink" href="#bird.Bird" title="Permalink to this definition">¶</a></dt>
+<dd><p>The class that represents a bird.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>index</strong> (<em>int</em>) – index that identifies bird.</p></li>
+<li><p><strong>position</strong> (<em>list</em>) – coordinates (x,y,z) of bird.</p></li>
+<li><p><strong>direction</strong> (<em>list</em>) – direction of bird’s velocity vector with coordinates (x,y,z), as a unit vector.</p></li>
+<li><p><strong>speed</strong> (<em>float</em>) – module of bird’s velocity vector.</p></li>
+<li><p><strong>type</strong> (<em>int</em>) – the type of object that the instance represents. Value 1 for bird, -1 for attraction point, -2 for repulsion point.</p></li>
+</ul>
+</dd>
+</dl>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<dl class="py method">
+<dt id="bird.Bird.attraction">
+<code class="sig-name descname">attraction</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">attraction_points</span></em><span class="sig-paren">)</span><a class="headerlink" href="#bird.Bird.attraction" title="Permalink to this definition">¶</a></dt>
+<dd><p>Go towards attraction points.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>attraction_points</strong> (<em>list</em>) – list of coordinates of the attraction points (see <code class="xref py py-data docutils literal notranslate"><span class="pre">ATTRACTION_POINTS</span></code> in <a class="reference internal" href="parameters.html#module-0" title="parameters"><code class="xref py py-mod docutils literal notranslate"><span class="pre">parameters</span></code></a>).</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>velocity vector that responds to the attraction of the corresponding points.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="bird.Bird.avoidance">
+<code class="sig-name descname">avoidance</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">neighbours</span><span class="p">:</span> <span class="n">list</span></em><span class="sig-paren">)</span><a class="headerlink" href="#bird.Bird.avoidance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Separate bird from neighbours that are too close.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>neighbours</strong> (<em>list</em>) – birds that are closer to the bird than the minimum distance (see <code class="xref py py-data docutils literal notranslate"><span class="pre">MIN_DIST</span></code> in <a class="reference internal" href="parameters.html#module-0" title="parameters"><code class="xref py py-mod docutils literal notranslate"><span class="pre">parameters</span></code></a>). Birds are represented as instances of the <a class="reference internal" href="#bird.Bird" title="bird.Bird"><code class="xref py py-class docutils literal notranslate"><span class="pre">bird.Bird</span></code></a> class.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>velocity vector that responds to the Avoidance rule.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="bird.Bird.center">
+<code class="sig-name descname">center</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">group_birds</span><span class="p">:</span> <span class="n">list</span></em><span class="sig-paren">)</span><a class="headerlink" href="#bird.Bird.center" title="Permalink to this definition">¶</a></dt>
+<dd><p>Seek cohesion with other bird’s positions.
+Bird will change direction to move toward the average position of all birds.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>group_birds</strong> (<em>list</em>) – birds that are closer to the bird than the group boundary distance (see <code class="xref py py-data docutils literal notranslate"><span class="pre">GROUP_DIST</span></code> in <a class="reference internal" href="parameters.html#module-0" title="parameters"><code class="xref py py-mod docutils literal notranslate"><span class="pre">parameters</span></code></a>). Birds are represented as instances of the <a class="reference internal" href="#bird.Bird" title="bird.Bird"><code class="xref py py-class docutils literal notranslate"><span class="pre">bird.Bird</span></code></a> class.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>velocity vector that responds to the Center rule.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="bird.Bird.copy">
+<code class="sig-name descname">copy</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">group_birds</span><span class="p">:</span> <span class="n">list</span></em><span class="sig-paren">)</span><a class="headerlink" href="#bird.Bird.copy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Seek cohesion with other bird’s directions (average direction).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>group_birds</strong> (<em>list</em>) – birds that are closer to the bird than the group boundary distance (see <code class="xref py py-data docutils literal notranslate"><span class="pre">GROUP_DIST</span></code> in <a class="reference internal" href="parameters.html#module-0" title="parameters"><code class="xref py py-mod docutils literal notranslate"><span class="pre">parameters</span></code></a>). Birds are represented as instances of the <a class="reference internal" href="#bird.Bird" title="bird.Bird"><code class="xref py py-class docutils literal notranslate"><span class="pre">bird.Bird</span></code></a> class.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>velocity vector that responds to the Copy rule.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="bird.Bird.repulsion">
+<code class="sig-name descname">repulsion</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">repulsion_points</span></em><span class="sig-paren">)</span><a class="headerlink" href="#bird.Bird.repulsion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Go towards repulsion points.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>repulsion_points</strong> (<em>list</em>) – list of coordinates of the repulsion points (see <code class="xref py py-data docutils literal notranslate"><span class="pre">REPULSION_POINTS</span></code> in <a class="reference internal" href="parameters.html#module-0" title="parameters"><code class="xref py py-mod docutils literal notranslate"><span class="pre">parameters</span></code></a>).</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>velocity vector that responds to the repulsion of the corresponding points.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="bird.Bird.update">
+<code class="sig-name descname">update</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">close_neighbours</span></em>, <em class="sig-param"><span class="n">group_birds</span></em>, <em class="sig-param"><span class="n">attraction_points</span></em>, <em class="sig-param"><span class="n">repulsion_points</span></em><span class="sig-paren">)</span><a class="headerlink" href="#bird.Bird.update" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates direction, speed and position of bird, considering all rules, and the attraction and repulsion points.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>close_neighbours</strong> (<em>list</em>) – birds that are closer to the bird than the minimum distance (see <code class="xref py py-data docutils literal notranslate"><span class="pre">MIN_DIST</span></code> in <a class="reference internal" href="parameters.html#module-0" title="parameters"><code class="xref py py-mod docutils literal notranslate"><span class="pre">parameters</span></code></a>). Birds are represented as instances of the <a class="reference internal" href="#bird.Bird" title="bird.Bird"><code class="xref py py-class docutils literal notranslate"><span class="pre">bird.Bird</span></code></a> class.</p></li>
+<li><p><strong>group_birds</strong> (<em>list</em>) – birds that are closer to the bird than the group boundary distance (see <code class="xref py py-data docutils literal notranslate"><span class="pre">GROUP_DIST</span></code> in <a class="reference internal" href="parameters.html#module-0" title="parameters"><code class="xref py py-mod docutils literal notranslate"><span class="pre">parameters</span></code></a>). Birds are represented as instances of the <a class="reference internal" href="#bird.Bird" title="bird.Bird"><code class="xref py py-class docutils literal notranslate"><span class="pre">bird.Bird</span></code></a> class.</p></li>
+<li><p><strong>attraction_points</strong> (<em>list</em>) – list of coordinates of the attraction points (see <code class="xref py py-data docutils literal notranslate"><span class="pre">ATTRACTION_POINTS</span></code> in <a class="reference internal" href="parameters.html#module-0" title="parameters"><code class="xref py py-mod docutils literal notranslate"><span class="pre">parameters</span></code></a>).</p></li>
+<li><p><strong>repulsion_points</strong> (<em>list</em>) – list of coordinates of the repulsion points (see <code class="xref py py-data docutils literal notranslate"><span class="pre">REPULSION_POINTS</span></code> in <a class="reference internal" href="parameters.html#module-0" title="parameters"><code class="xref py py-mod docutils literal notranslate"><span class="pre">parameters</span></code></a>).</p></li>
+</ul>
+</dd>
+</dl>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="bird.Bird.updateAttractor">
+<code class="sig-name descname">updateAttractor</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">all_birds</span></em><span class="sig-paren">)</span><a class="headerlink" href="#bird.Bird.updateAttractor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates direction, speed and position of the attractor points. 
+They will avoid the birds that are closer than a minimum distance (see <code class="xref py py-data docutils literal notranslate"><span class="pre">MIN_DIST_ATTRACTOR</span></code> in <a class="reference internal" href="parameters.html#module-0" title="parameters"><code class="xref py py-mod docutils literal notranslate"><span class="pre">parameters</span></code></a>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>all_birds</strong> (<em>list</em>) – all the birds in the simulation, represented as instances of the <a class="reference internal" href="#bird.Bird" title="bird.Bird"><code class="xref py py-class docutils literal notranslate"><span class="pre">bird.Bird</span></code></a> class.</p>
+</dd>
+</dl>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="bird.Bird.updatePos">
+<code class="sig-name descname">updatePos</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">diff_time</span></em><span class="sig-paren">)</span><a class="headerlink" href="#bird.Bird.updatePos" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update bird’s position using speed and direction.
+Takes into consideration boundary conditions.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>diff_time</strong> (<em>float</em>) – small interval of time used to update position based on velocity.</p>
+</dd>
+</dl>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="bird.Bird.updateRepulsor">
+<code class="sig-name descname">updateRepulsor</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">all_birds</span></em><span class="sig-paren">)</span><a class="headerlink" href="#bird.Bird.updateRepulsor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Updates direction, speed and position of the repulsion points. 
+They will go towards the birds that are closer than a minimum distance (see <code class="xref py py-data docutils literal notranslate"><span class="pre">MIN_DIST_REPULSOR</span></code> in <a class="reference internal" href="parameters.html#module-0" title="parameters"><code class="xref py py-mod docutils literal notranslate"><span class="pre">parameters</span></code></a>).
+They will also go towards the center of the group of birds that are closer than a group boundary distance (see <code class="xref py py-data docutils literal notranslate"><span class="pre">GROUP_DIST_REPULSOR</span></code> in <a class="reference internal" href="parameters.html#module-0" title="parameters"><code class="xref py py-mod docutils literal notranslate"><span class="pre">parameters</span></code></a>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>all_birds</strong> (<em>list</em>) – all the birds in the simulation, represented as instances of the <a class="reference internal" href="#bird.Bird" title="bird.Bird"><code class="xref py py-class docutils literal notranslate"><span class="pre">bird.Bird</span></code></a> class.</p>
+</dd>
+</dl>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt id="bird.Bird.view">
+<code class="sig-name descname">view</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">group_birds</span><span class="p">:</span> <span class="n">list</span></em><span class="sig-paren">)</span><a class="headerlink" href="#bird.Bird.view" title="Permalink to this definition">¶</a></dt>
+<dd><p>Move if there is another bird in area of view.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>group_birds</strong> (<em>list</em>) – birds that are closer to the bird than the group boundary distance (see <code class="xref py py-data docutils literal notranslate"><span class="pre">GROUP_DIST</span></code> in <a class="reference internal" href="parameters.html#module-0" title="parameters"><code class="xref py py-mod docutils literal notranslate"><span class="pre">parameters</span></code></a>). Birds are represented as instances of the <a class="reference internal" href="#bird.Bird" title="bird.Bird"><code class="xref py py-class docutils literal notranslate"><span class="pre">bird.Bird</span></code></a> class.</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>velocity vector that responds to the View rule.</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>list</p>
+</dd>
+</dl>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">Bird Flocks Simulation</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="parameters.html">parameters module</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">bird module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="initialize_birds.html">initialize_birds module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="graphics.html">graphics module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="main.html">main module</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="parameters.html" title="previous chapter">parameters module</a></li>
+      <li>Next: <a href="initialize_birds.html" title="next chapter">initialize_birds module</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2021, Anna Danot, Núria Fernández, Jan Mousavi, Loredana Sandu.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.1.2</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/bird.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>
