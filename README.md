@@ -1,1 +1,1 @@
-# new-bird-flocks-simulation
+# bird-flocks-simulation
