@@ -1,4 +1,4 @@
-# bird-flocks-simulation
+# Simulation of Bird Flocks
 
 Simulation of bird flocks, based on a mathematical model created by the same collaborators.
 
