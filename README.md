@@ -2,14 +2,18 @@
 
 Simulation of bird flocks, based on a mathematical model created by the same collaborators.
 
+<img src="/figures/3d.gif" width="400" alt="Demo3D" /> <img src="/figures/2d.gif" width="350" alt="Demo2D" />
+
 ## Rules that govern the birds' motion
 
-The behavior of bird flocks is controlled by four simple rules. These are the rules we've considered in our model.
+The behavior of bird flocks is controlled by some rules. These are the rules we've considered in our model.
 
 * **Avoidance**: every bird tries to separate itself from birds that are too close.
 * **Center**: every bird seeks cohesion with other birds' positions. That is, the bird will change its direction to move toward the average position of all birds.
 * **Copy**: every bird seeks cohesion with other birds' directions. That is, the bird will change its direction to cohese with the average direction.
 * **View**: a bird will move if there is another bird in its area of view.
+* **Attractive objects**: there are animals and other things that attract the birds (for example, food). The presence of these objects is represented in the simulation by green circles and spheres. At the same time, these attractive objects avoid the birds.
+* **Repulsive objects**: there are animals and other things that the birds try to avoid (for example, predators). The presence of these objects is represented in the simulation by red circles and spheres. At the same time, these repulsive objects will go towards the birds.
 
 ## Usage
 
