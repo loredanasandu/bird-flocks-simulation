@@ -2,6 +2,8 @@
 
 Simulation of bird flocks, based on a mathematical model created by the same collaborators.
 
+<img src="/figures/3d-2.gif" width="400" alt="Demo3D" text-align="center"/>
+
 ## Rules that govern the birds' motion
 
 The behavior of bird flocks is controlled by some rules. These are the rules we've considered in our model.
@@ -36,7 +38,7 @@ Parameters used to run the simulation can be changed in the parameters.py file. 
 
 ## Demo
 
-<img src="/figures/3d.gif" width="400" alt="Demo3D" /> <img src="/figures/2d.gif" width="350" alt="Demo2D" />
+<img src="/figures/3d.gif" width="400" alt="Demo3D" /> <img src="/figures/2d.gif" width="400" alt="Demo2D" />
 
 ## Authors
 * [Anna Danot](https://github.com/Yeppo-aann)
